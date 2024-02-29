@@ -17,6 +17,6 @@ router.use('/docs', express.static('docs'));
 
 router.use('/users', userRoutes);
 router.use('/posts', postRoutes);
-// router.use('/comments', commentRoutes);
+router.use('/comments', commentRoutes);
 
 module.exports = router;
