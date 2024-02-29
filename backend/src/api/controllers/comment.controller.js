@@ -5,8 +5,8 @@ const Comment = require('../models/comment.model');
  * Get comment
  * @public
  */
-exports.get = (req, res) => {
-    const comment = Comment.get(req.params.commentId);
+exports.get = async (req, res) => {
+    const comment = await Comment.get(req.params.commentId);
     res.json(comment);
 };
 
