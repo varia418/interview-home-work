@@ -21,10 +21,6 @@ router
     .post(validate(createUser), controller.create);
 
 router
-    .route('/profile')
-    .get(controller.loggedIn);
-
-router
     .route('/:userId')
     .get(controller.get)
     .put(validate(replaceUser), controller.replace)
