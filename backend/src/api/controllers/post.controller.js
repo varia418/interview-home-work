@@ -5,8 +5,8 @@ const Post = require('../models/post.model');
  * Get post
  * @public
  */
-exports.get = (req, res) => {
-    const post = Post.get(req.params.postId);
+exports.get = async (req, res) => {
+    const post = await Post.get(req.params.postId);
     res.json(post);
 };
 
