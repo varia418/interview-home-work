@@ -16,7 +16,7 @@ function NavBar() {
 	}
 
 	return (
-		<nav className={`navbar navbar-expand-lg bg-body-tertiary sticky-top`}>
+		<nav className={`navbar navbar-expand-lg bg-body-tertiary sticky-top`} style={{ padding: 15 }}>
 				<Link href="/" className="navbar-brand">
 					<Image
 						src="/vercel.svg"
