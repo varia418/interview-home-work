@@ -12,9 +12,11 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
+import { useAppDispatch } from "../redux/hooks";
 
 export default function Root() {
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
 	function handleSearch(event: React.FormEvent) {
 		event.preventDefault();
@@ -62,12 +64,24 @@ export default function Root() {
 									<Form.Control
 										type="text"
 										placeholder="Keyword"
-                                        name="keyword"
+										name="keyword"
 										className=" mr-sm-2"
 									/>
 								</Col>
 								<Col xs="auto">
 									<Button type="submit">Search</Button>
+								</Col>
+								<Col xs="auto">
+									<Button
+										onClick={() =>
+											dispatch({
+												type: "POST_FETCH_REQUESTED",
+												payload: { keyword: "optio" },
+											})
+										}
+									>
+										Test
+									</Button>
 								</Col>
 							</Row>
 						</Form>
