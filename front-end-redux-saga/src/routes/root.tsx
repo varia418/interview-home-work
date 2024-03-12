@@ -11,19 +11,21 @@ import Button from "react-bootstrap/Button";
 export default function Root() {
 	// const router = useRouter();
 
-	function handleSearch(event: React.FormEvent) {
-		// event.preventDefault();
-		// const formData = new FormData(event.target as HTMLFormElement);
-		// const { keyword } = Object.fromEntries(formData);
-		// router.push("/search?keyword=" + keyword);
-	}
+	// function handleSearch(event: React.FormEvent) {
+	// 	event.preventDefault();
+	// 	const formData = new FormData(event.target as HTMLFormElement);
+	// 	const { keyword } = Object.fromEntries(formData);
+	// 	router.push("/search?keyword=" + keyword);
+	// }
 
 	return (
 		<>
-			<Navbar expand="lg" className="bg-body-tertiary">
+			<Navbar expand="lg" sticky="top" className="bg-body-tertiary">
 				<Container>
 					<Navbar.Brand>
-						<Link className="navbar-brand" to="/">ZigvyBlog</Link>{" "}
+						<Link className="navbar-brand" to="/">
+							ZigvyBlog
+						</Link>{" "}
 					</Navbar.Brand>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="basic-navbar-nav">
@@ -61,9 +63,7 @@ export default function Root() {
 					</Navbar.Collapse>
 				</Container>
 			</Navbar>
-			<div id="detail">
-				<Outlet />
-			</div>
+			<Outlet />
 		</>
 	);
 }
