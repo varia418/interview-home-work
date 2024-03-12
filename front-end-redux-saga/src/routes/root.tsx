@@ -51,12 +51,12 @@ export default function Root() {
 								<Col xs="auto">
 									<Form.Control
 										type="text"
-										placeholder="Search"
+										placeholder="Keyword"
 										className=" mr-sm-2"
 									/>
 								</Col>
 								<Col xs="auto">
-									<Button type="submit">Submit</Button>
+									<Button type="submit">Search</Button>
 								</Col>
 							</Row>
 						</Form>
