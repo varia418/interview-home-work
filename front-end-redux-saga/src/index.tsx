@@ -2,17 +2,29 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
+import Root from "./routes/root";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./error-page";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const router = createBrowserRouter([
 	{
 		path: "/",
-		element: <App />,
-        errorElement: <ErrorPage />,
+		element: <Root />,
+		errorElement: <ErrorPage />,
+		children: [
+			{
+				path: "posts/:id",
+				element: <App />,
+			},
+			{
+				path: "search",
+				element: <App />,
+			},
+		],
 	},
 ]);
 
