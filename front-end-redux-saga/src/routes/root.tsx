@@ -1,5 +1,10 @@
 import React from "react";
-import { Outlet, Link } from "react-router-dom";
+import {
+	Outlet,
+	Link,
+	useNavigate,
+	createSearchParams,
+} from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -9,14 +14,19 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
 export default function Root() {
-	// const router = useRouter();
+	const navigate = useNavigate();
 
-	// function handleSearch(event: React.FormEvent) {
-	// 	event.preventDefault();
-	// 	const formData = new FormData(event.target as HTMLFormElement);
-	// 	const { keyword } = Object.fromEntries(formData);
-	// 	router.push("/search?keyword=" + keyword);
-	// }
+	function handleSearch(event: React.FormEvent) {
+		event.preventDefault();
+		const formData = new FormData(event.target as HTMLFormElement);
+		const { keyword } = Object.fromEntries(formData);
+		navigate({
+			pathname: "search",
+			search: createSearchParams({
+				keyword: keyword as string,
+			}).toString(),
+		});
+	}
 
 	return (
 		<>
@@ -46,12 +56,13 @@ export default function Root() {
 								</Link>{" "}
 							</Nav.Link>
 						</Nav>
-						<Form>
+						<Form onSubmit={handleSearch}>
 							<Row>
 								<Col xs="auto">
 									<Form.Control
 										type="text"
 										placeholder="Keyword"
+                                        name="keyword"
 										className=" mr-sm-2"
 									/>
 								</Col>
