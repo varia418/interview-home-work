@@ -71,18 +71,6 @@ export default function Root() {
 								<Col xs="auto">
 									<Button type="submit">Search</Button>
 								</Col>
-								<Col xs="auto">
-									<Button
-										onClick={() =>
-											dispatch({
-												type: "POST_FETCH_REQUESTED",
-												payload: { keyword: "optio" },
-											})
-										}
-									>
-										Test
-									</Button>
-								</Col>
 							</Row>
 						</Form>
 					</Navbar.Collapse>
