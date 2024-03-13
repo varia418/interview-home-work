@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import Comment from "./Comment";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { PostComment, PostData } from "../types";
 import { Accordion } from "react-bootstrap";
+import { selectUsername } from "../redux/features/user/userSlice";
 
 interface Props extends PostData {
 	createdAt: Date;
@@ -20,7 +21,7 @@ function Post({
 	comments = [],
 }: Props) {
 	const dispatch = useAppDispatch();
-	// const { data: author } = useGetUserDetailsQuery(userId);
+	const authorName = useAppSelector((state) => selectUsername(state, userId));
 	useEffect(() => {
 		dispatch({
 			type: "COMMENT_FETCH_REQUESTED",
@@ -39,7 +40,7 @@ function Post({
 				</Link>
 			</h1>
 			<div className="d-flex flex-column">
-				{/* <span>Author: {author?.username ?? ""}</span> */}
+				<span>Author: {authorName}</span>
 				<span>{`Created at: ${createdAt.toLocaleDateString()}`}</span>
 			</div>
 			<p className="my-3">
