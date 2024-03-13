@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Post from "../components/Post";
 import type { PostData } from "../types";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
