@@ -12,7 +12,7 @@ const initialState: PostState = {
 	posts: [],
 };
 
-const postsSlice = createSlice({
+const postSlice = createSlice({
 	name: "posts",
 	initialState,
 	reducers: {
@@ -20,9 +20,16 @@ const postsSlice = createSlice({
 			state.posts = [...state.posts, ...action.payload.data];
 			state.hasNext = action.payload.hasNext;
 		},
+		fetchPostCommentsSucceeded: (state, action) => {
+			const { postId, data } = action.payload;
+			const post = state.posts.find((post) => post.id === postId);
+			if (post) {
+				post.comments = data;
+			}
+		},
 	},
 });
 
-export const { fetchPostBatchSucceeded } = postsSlice.actions;
+export const { fetchPostBatchSucceeded, fetchPostCommentsSucceeded } = postSlice.actions;
 export const selectPosts = (state: RootState) => state.post;
-export default postsSlice.reducer;
+export default postSlice.reducer;

@@ -4,6 +4,7 @@ export type PostData = {
 	id: number;
 	title: string;
 	body: string;
+	comments: PostComment[];
 };
 
 export type BlogPost = {

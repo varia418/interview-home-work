@@ -1,6 +1,10 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import postApi from "../../../api/postApi";
-import { fetchPostBatchSucceeded } from "./postSlice";
+import {
+	fetchPostBatchSucceeded,
+	fetchPostCommentsSucceeded,
+} from "./postSlice";
+import commentApi from "../../../api/commentApi";
 
 interface FetchPostBatchAction {
 	type: string;
@@ -28,8 +32,32 @@ function* fetchPostBatch(
 	}
 }
 
+interface FetchPostCommentsAction {
+	type: string;
+	payload: {
+		postId: number;
+	};
+}
+
+function* fetchPostComments(
+	action: FetchPostCommentsAction
+): Generator<any, void, any> {
+	try {
+		const { postId } = action.payload;
+		const data = yield call(commentApi.fetchPostComments, { postId });
+		const payload = {
+			data,
+			postId,
+		};
+		yield put(fetchPostCommentsSucceeded(payload));
+	} catch (error) {
+		console.log("🚀 ~ error:", error);
+	}
+}
+
 // Starts fetchUser on each dispatched USER_FETCH_REQUESTED action
 // Allows concurrent fetches of user
 export default function* postSaga() {
 	yield takeEvery("POST_FETCH_REQUESTED", fetchPostBatch);
+	yield takeEvery("COMMENT_FETCH_REQUESTED", fetchPostComments);
 }

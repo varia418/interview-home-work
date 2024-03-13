@@ -1,27 +1,35 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Comment from "./Comment";
 import { Link } from "react-router-dom";
-// import type { PostComment, User } from "@/types";
-// import {
-// 	useGetPostCommentsQuery,
-// 	useGetUserDetailsQuery,
-// } from "@/lib/features/api/apiSlice";
+import { useAppDispatch } from "../redux/hooks";
+import { PostComment, PostData } from "../types";
+import { Accordion } from "react-bootstrap";
 
-type Props = {
-	id: number;
-	userId: number;
-	title: string;
-	body: string;
+interface Props extends PostData {
 	createdAt: Date;
 	type: "summary" | "detail";
-};
+}
 
-function Post({ id, userId, title, body, createdAt, type }: Props) {
+function Post({
+	id,
+	userId,
+	title,
+	body,
+	createdAt,
+	type,
+	comments = [],
+}: Props) {
+	const dispatch = useAppDispatch();
 	// const { data: author } = useGetUserDetailsQuery(userId);
-	// const { data: comments = [] } = useGetPostCommentsQuery(id);
+	useEffect(() => {
+		dispatch({
+			type: "COMMENT_FETCH_REQUESTED",
+			payload: { postId: id },
+		});
+	}, []);
 
 	return (
-		<article>
+		<article className="my-5">
 			<h1 className="text-center">
 				<Link
 					className="text-decoration-none text-dark"
@@ -39,31 +47,18 @@ function Post({ id, userId, title, body, createdAt, type }: Props) {
 					? body.slice(0, 99) + "..."
 					: body}
 			</p>
-			<div>
-				<span
-					className="text-secondary"
-					role="button"
-					data-bs-toggle="collapse"
-					data-bs-target={`#commentContainer-${id}`}
-					aria-expanded="false"
-					aria-controls={`commentContainer-${id}`}
-				>
-					{/* <em>{`${comments.length} replies`}</em> */}
-				</span>
-				<hr />
-				<div
-					className={`collapse ${
-						type === "detail" ? "show" : ""
-					} py-2`}
-					id={`commentContainer-${id}`}
-				>
-					<div className="d-flex flex-column gap-4">
-						{/* {comments.map((comment: PostComment) => (
-							<Comment key={comment.id} {...comment} />
-						))} */}
-					</div>
-				</div>
-			</div>
+			<Accordion>
+				<Accordion.Item eventKey="0">
+					<Accordion.Header>{`${comments.length} replies`}</Accordion.Header>
+					<Accordion.Body>
+						<div className="d-flex flex-column gap-4">
+							{comments.map((comment: PostComment) => (
+								<Comment key={comment.id} {...comment} />
+							))}
+						</div>
+					</Accordion.Body>
+				</Accordion.Item>
+			</Accordion>
 		</article>
 	);
 }
