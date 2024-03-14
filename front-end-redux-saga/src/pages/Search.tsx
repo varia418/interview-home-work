@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Post from "../components/Post";
 import type { PostData } from "../types";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
-import { selectPosts } from "../redux/features/post/postSlice";
+import { pageChanged, selectPosts } from "../redux/features/post/postSlice";
 import { DEFAULT_POST_BATCH_SIZE } from "../constants";
 import { useSearchParams } from "react-router-dom";
 
@@ -11,14 +11,22 @@ export default function Search() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const keyword: string = searchParams.get("keyword") ?? "";
 
-	const { posts, hasNext } = useAppSelector(selectPosts);
+	const { posts, hasNext, isLoading } = useAppSelector(selectPosts);
 	const observerTarget = useRef<HTMLDivElement>(null);
 
 	if (!hasNext) {
 		if (observerTarget.current) {
 			observerTarget.current.classList.add("d-none");
 		}
+	} else {
+		if (observerTarget.current) {
+			observerTarget.current.classList.remove("d-none");
+		}
 	}
+
+	useEffect(() => {
+		dispatch(pageChanged(undefined));
+	}, []);
 
 	useEffect(() => {
 		let offset = 0;
@@ -53,6 +61,7 @@ export default function Search() {
 
 	return (
 		<main className="container mt-3">
+			<h1>Results for: {keyword}</h1>
 			{posts.map((post: PostData) => (
 				<Post
 					key={post.id}
