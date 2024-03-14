@@ -1,18 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
 import { PostData } from "../../../types";
 
-interface PostState {
-	hasNext: boolean;
-	isLoading: boolean;
-	posts: PostData[];
-}
+const postAdapter = createEntityAdapter<PostData>({
+	selectId: (post: PostData) => post.id,
+});
 
-const initialState: PostState = {
+const initialState = postAdapter.getInitialState({
 	hasNext: true,
 	isLoading: false,
-	posts: [],
-};
+});
 
 const postSlice = createSlice({
 	name: "posts",
@@ -25,33 +22,26 @@ const postSlice = createSlice({
 			state.isLoading = false;
 			const { offset, data, hasNext } = action.payload;
 			if (offset === 0) {
-				state.posts = data;
+				postAdapter.setAll(state, data);
 			} else {
-				state.posts = [...state.posts, ...data];
+				postAdapter.upsertMany(state, data);
 			}
 			state.hasNext = hasNext;
 		},
 		fetchPostCommentsSucceeded: (state, action) => {
 			const { postId, data } = action.payload;
-			const post = state.posts.find((post) => post.id === postId);
+			const post = state.entities[postId];
 			if (post) {
 				post.comments = data;
 			}
 		},
 		pageChanged: (state, action) => {
-			state.posts = [];
+			postAdapter.setAll(state, []);
 			state.hasNext = true;
 		},
 		fetchPostDetailsSucceeded: (state, action) => {
-			const { postId, data } = action.payload;
-			const post = state.posts.find((post) => post.id === postId);
-			if (!post) {
-				state.posts.push(data);
-			} else {
-				state.posts = state.posts.map((post) =>
-					post.id === postId ? data : post
-				);
-			}
+			const { data } = action.payload;
+			postAdapter.upsertOne(state, data);
 		},
 	},
 });
@@ -63,8 +53,11 @@ export const {
 	pageChanged,
 } = postSlice.actions;
 
-export const selectPosts = (state: RootState) => state.post;
-export const selectPostDetails = (state: RootState, postId: number) =>
-	state.post.posts.find((post) => post.id === postId);
+export const { selectAll: selectPosts, selectById: selectPostDetails } =
+	postAdapter.getSelectors((state: RootState) => state.post);
+export const selectPostMetadata = (state: RootState) => ({
+	isLoading: state.post.isLoading,
+	hasNext: state.post.hasNext,
+});
 
 export default postSlice.reducer;

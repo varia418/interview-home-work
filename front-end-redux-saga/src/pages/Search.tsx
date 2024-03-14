@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Post from "../components/Post";
 import type { PostData } from "../types";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
-import { pageChanged, selectPosts } from "../redux/features/post/postSlice";
+import { pageChanged, selectPostMetadata, selectPosts } from "../redux/features/post/postSlice";
 import { DEFAULT_POST_BATCH_SIZE } from "../constants";
 import { useSearchParams } from "react-router-dom";
 
@@ -11,7 +11,8 @@ export default function Search() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const keyword: string = searchParams.get("keyword") ?? "";
 
-	const { posts, hasNext, isLoading } = useAppSelector(selectPosts);
+	const posts = useAppSelector(selectPosts);
+	const { hasNext, isLoading } = useAppSelector(selectPostMetadata);
 	const observerTarget = useRef<HTMLDivElement>(null);
 
 	if (!hasNext) {

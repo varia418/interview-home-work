@@ -2,13 +2,18 @@ import { useEffect, useRef } from "react";
 import Post from "../components/Post";
 import type { PostData } from "../types";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
-import { pageChanged, selectPosts } from "../redux/features/post/postSlice";
+import {
+	pageChanged,
+	selectPostMetadata,
+	selectPosts,
+} from "../redux/features/post/postSlice";
 import { DEFAULT_POST_BATCH_SIZE } from "../constants";
 
 export default function Home() {
 	const dispatch = useAppDispatch();
 
-	const { posts, hasNext, isLoading } = useAppSelector(selectPosts);
+	const posts = useAppSelector(selectPosts);
+	const { hasNext, isLoading } = useAppSelector(selectPostMetadata);
 	const observerTarget = useRef<HTMLDivElement>(null);
 
 	if (!hasNext) {
