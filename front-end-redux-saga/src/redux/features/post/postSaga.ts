@@ -31,7 +31,6 @@ function* fetchPostBatch(
 		yield put(fetchPostBatchSucceeded(data));
 	} catch (error) {
 		console.log("🚀 ~ error:", error);
-		// yield put({ type: "USER_FETCH_FAILED", message: error?.message });
 	}
 }
 
@@ -58,8 +57,6 @@ function* fetchPostComments(
 	}
 }
 
-// Starts fetchUser on each dispatched USER_FETCH_REQUESTED action
-// Allows concurrent fetches of user
 export default function* postSaga() {
 	yield takeEvery("POST_FETCH_REQUESTED", fetchPostBatch);
 	yield takeEvery("COMMENT_FETCH_REQUESTED", fetchPostComments);

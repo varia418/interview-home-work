@@ -8,10 +8,6 @@ const commentApi = {
 		const data = await response.json();
 		return data;
 	},
-	// getPost(id) {
-	// 	const url = `/posts/${id}`;
-	// 	return fetch(url);
-	// },
 };
 
 export default commentApi;
