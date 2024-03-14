@@ -57,7 +57,24 @@ function* fetchPostComments(
 	}
 }
 
+function* fetchPostDetails(
+	action: FetchPostCommentsAction
+): Generator<any, void, any> {
+	try {
+		const { postId } = action.payload;
+		const data = yield call(postApi.fetchPostDetails, postId);
+		const payload = {
+			data,
+			postId,
+		};
+		yield put(fetchPostCommentsSucceeded(payload));
+	} catch (error) {
+		console.log("🚀 ~ error:", error);
+	}
+}
+
 export default function* postSaga() {
-	yield takeEvery("POST_FETCH_REQUESTED", fetchPostBatch);
-	yield takeEvery("COMMENT_FETCH_REQUESTED", fetchPostComments);
+	yield takeEvery("POSTS_FETCH_REQUESTED", fetchPostBatch);
+	yield takeEvery("COMMENTS_FETCH_REQUESTED", fetchPostComments);
+	yield takeEvery("POST_FETCH_REQUESTED", fetchPostDetails);
 }

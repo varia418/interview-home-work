@@ -24,7 +24,7 @@ function Post({
 	const authorName = useAppSelector((state) => selectUsername(state, userId));
 	useEffect(() => {
 		dispatch({
-			type: "COMMENT_FETCH_REQUESTED",
+			type: "COMMENTS_FETCH_REQUESTED",
 			payload: { postId: id },
 		});
 	}, []);
@@ -48,7 +48,7 @@ function Post({
 					? body.slice(0, 99) + "..."
 					: body}
 			</p>
-			<Accordion>
+			<Accordion defaultActiveKey={`${type === "detail" ? "0" : ""}`}>
 				<Accordion.Item eventKey="0">
 					<Accordion.Header>{`${comments.length} replies`}</Accordion.Header>
 					<Accordion.Body>

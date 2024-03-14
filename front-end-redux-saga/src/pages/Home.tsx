@@ -34,7 +34,7 @@ export default function Home() {
 		const observer = new IntersectionObserver(([entry]) => {
 			if (entry.isIntersecting) {
 				dispatch({
-					type: "POST_FETCH_REQUESTED",
+					type: "POSTS_FETCH_REQUESTED",
 					payload: {
 						batchSize: DEFAULT_POST_BATCH_SIZE,
 						offset,

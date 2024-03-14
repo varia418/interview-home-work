@@ -37,7 +37,7 @@ export default function Search() {
 		const observer = new IntersectionObserver(([entry]) => {
 			if (entry.isIntersecting) {
 				dispatch({
-					type: "POST_FETCH_REQUESTED",
+					type: "POSTS_FETCH_REQUESTED",
 					payload: {
 						keyword,
 						batchSize: DEFAULT_POST_BATCH_SIZE,

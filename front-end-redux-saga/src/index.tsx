@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import Root from "./pages/Layout/root";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -11,6 +10,7 @@ import ErrorPage from "./error-page";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
+import PostDetails from "./pages/PostDetails";
 
 const router = createBrowserRouter([
 	{
@@ -23,8 +23,8 @@ const router = createBrowserRouter([
 				element: <Home />,
 			},
 			{
-				path: "posts/:id",
-				element: <App />,
+				path: "posts/:postId",
+				element: <PostDetails />,
 			},
 			{
 				path: "search",

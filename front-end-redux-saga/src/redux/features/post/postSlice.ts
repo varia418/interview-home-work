@@ -40,7 +40,18 @@ const postSlice = createSlice({
 		},
 		pageChanged: (state, action) => {
 			state.posts = [];
-            state.hasNext = true;
+			state.hasNext = true;
+		},
+		fetchPostDetailsSucceeded: (state, action) => {
+			const { postId, data } = action.payload;
+			const post = state.posts.find((post) => post.id === postId);
+			if (!post) {
+				state.posts.push(data);
+			} else {
+				state.posts = state.posts.map((post) =>
+					post.id === postId ? data : post
+				);
+			}
 		},
 	},
 });
@@ -51,5 +62,9 @@ export const {
 	fetchPostsRequested,
 	pageChanged,
 } = postSlice.actions;
+
 export const selectPosts = (state: RootState) => state.post;
+export const selectPostDetails = (state: RootState, postId: number) =>
+	state.post.posts.find((post) => post.id === postId);
+
 export default postSlice.reducer;

@@ -22,7 +22,7 @@ const postApi = {
 		const data = await response.json();
 		return data;
 	},
-	getPost(postId: number) {
+	fetchPostDetails(postId: number) {
 		const url = `${BACKEND_URL}/posts/${postId}`;
 		return fetch(url);
 	},
