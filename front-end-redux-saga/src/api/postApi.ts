@@ -1,3 +1,5 @@
+import { BACKEND_URL } from "../constants";
+
 const postApi = {
 	async fetchPostBatch({
 		keyword,
@@ -8,7 +10,6 @@ const postApi = {
 		batchSize?: number;
 		offset?: number;
 	}) {
-		const baseUrl = process.env.REACT_APP_BACKEND_URL;
 		let query = "";
 		if (keyword) {
 			query += `keyword=${keyword}`;
@@ -16,15 +17,15 @@ const postApi = {
 		if (batchSize) {
 			query += `&batchSize=${batchSize}&offset=${offset}`;
 		}
-		const url = `${baseUrl}/posts${query ? `?${query}` : ""}`;
+		const url = `${BACKEND_URL}/posts${query ? `?${query}` : ""}`;
 		const response = await fetch(url);
-        const data = await response.json();
+		const data = await response.json();
 		return data;
 	},
-	// getPost(id) {
-	// 	const url = `/posts/${id}`;
-	// 	return fetch(url);
-	// },
+	getPost(postId: number) {
+		const url = `${BACKEND_URL}/posts/${postId}`;
+		return fetch(url);
+	},
 };
 
 export default postApi;

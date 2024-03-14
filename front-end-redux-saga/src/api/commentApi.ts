@@ -1,7 +1,9 @@
+import { BACKEND_URL } from "../constants";
+
+
 const commentApi = {
 	async fetchPostComments({ postId }: { postId: number }) {
-		const baseUrl = process.env.REACT_APP_BACKEND_URL;
-		const url = `${baseUrl}/posts/${postId}/comments`;
+		const url = `${BACKEND_URL}/posts/${postId}/comments`;
 		const response = await fetch(url);
 		const data = await response.json();
 		return data;
